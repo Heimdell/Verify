@@ -1,20 +1,20 @@
 class Verify::Assumption
   autoload :Guess, 'Verify/assumption/guess'
 
-  @@preparation = proc do
-    puts "We came unprepared."
-  end
-
-  @@cleaning = proc do
-    puts "We're leaving the kitchen dirty."
-  end
-
   def self.setup &block
     @@preparation = block
   end
 
   def self.teardown &block
     @@cleaning = block
+  end
+
+  setup do
+    puts "We came unprepared."
+  end
+
+  teardown do
+    puts "We're leaving the kitchen dirty."
   end
 
   def self.maybe(message, &block)

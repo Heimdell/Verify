@@ -24,7 +24,6 @@ class Verify::Assumption
 
     guess.instance_eval &@@preparation
     guess.instance_eval &block
-    guess.instance_eval &@@cleaning
 
     puts '.'
 
@@ -38,6 +37,9 @@ class Verify::Assumption
 
   rescue
     puts '?'
+
+  ensure
+    guess.instance_eval &@@cleaning
 
   end
 end

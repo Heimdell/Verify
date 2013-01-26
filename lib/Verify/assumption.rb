@@ -1,4 +1,3 @@
-
 class Verify::Assumption
   autoload :Guess, 'Verify/assumption/guess'
 
@@ -9,14 +8,18 @@ class Verify::Assumption
 
     guess.instance_eval &block
 
+    puts '.'
+
   rescue Guess::WrongAssumptions => e
     puts "  Assertion failed."
+    puts '!'
 
   rescue Guess::WrongAssumptionsAbout => e
     puts "  Assertion failed: #{e.message}."
+    puts '!'
 
-  ensure
-    puts "  #{guess.results}"
-    puts
+  rescue
+    puts '?'
+
   end
 end

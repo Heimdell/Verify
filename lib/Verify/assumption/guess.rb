@@ -1,4 +1,3 @@
-
 class Verify::Assumption::Guess
 
   class WrongAssumptions < StandardError
@@ -17,11 +16,7 @@ class Verify::Assumption::Guess
   end
 
   def assert result
-    case result
-    when TrueClass
-      @results << '.'
-    when FalseClass
-      @results << '!'
+    unless result
       raise WrongAssumptions
     end
   end

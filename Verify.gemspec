@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Verify::VERSION
   gem.authors       = ["Heimdell"]
   gem.email         = ["hindmost.one@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = "Test framework"
+  gem.summary       = "YA Test Framework"
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
@@ -17,5 +17,5 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency "Verify"
+  gem.executables << 'verify'
 end

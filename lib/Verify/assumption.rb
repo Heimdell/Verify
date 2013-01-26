@@ -1,45 +1,70 @@
 class Verify::Assumption
   autoload :Guess, 'Verify/assumption/guess'
+  autoload :Theory, 'Verify/theory'
 
   def self.setup &block
-    @@preparation = block
+    define_method :assumption_setup do
+      @@preparation = block
+    end
   end
 
   def self.teardown &block
-    @@cleaning = block
+    define_method :assumption_teardown do
+      @@cleaning = block
+    end
   end
 
   setup do
-    puts "We came unprepared."
   end
 
   teardown do
-    puts "We're leaving the kitchen dirty."
   end
 
   def self.maybe(message, &block)
-    puts "Running: #{message}"
+    define_method "#{message}_assumption" do
+      result = nil
 
-    guess = Guess.new
+      begin
+        guess = Guess.new
 
-    guess.instance_eval &@@preparation
-    guess.instance_eval &block
+        assumption_setup
 
-    puts '.'
+        guess.instance_eval &@@preparation
+        guess.instance_eval &block
 
-  rescue Guess::WrongAssumptions => e
-    puts "  Assertion failed."
-    puts '!'
+        result = :proved
 
-  rescue Guess::WrongAssumptionsAbout => e
-    puts "  Assertion failed: #{e.message}."
-    puts '!'
+      rescue Guess::WrongAssumptions => e
+        result = :falture
 
-  rescue
-    puts '?'
+      rescue Guess::WrongAssumptionsAbout => e
+        result = :falture
 
-  ensure
-    guess.instance_eval &@@cleaning
+      rescue
+        result = :error
 
+      ensure
+        assumption_teardown
+
+        guess.instance_eval &@@cleaning
+      end
+
+      return result
+    end
   end
+
+  def self.prove
+    instance = self.new
+
+    cases = instance.methods.grep(/_assumption/)
+
+    concrete_results = cases.map do |assumption|
+      { assumption => instance.send(assumption) }
+    end
+  end
+
+  def self.inherited(subclass)
+    Theory.assume self => [subclass]
+  end
+
 end

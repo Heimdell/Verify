@@ -1,6 +1,6 @@
 require './assumptions/preassumptions'
 
-class VerifyVerify < Verify::Assumption
+class VerifyVerifyAssumption < Verify::Assumption
   setup do
     @value = 1
   end

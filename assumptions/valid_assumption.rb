@@ -1,21 +1,22 @@
 require './assumptions/preassumptions'
 
-class BasicAsserts < Verify::Assumption
+class ValidAssumption < Verify::Assumption
 
   maybe "asserts true" do
-    assert false
     assert true
-    assert false
   end
 
-  maybe "asserts true" do
+  maybe "asserts multiple trues" do
     assert true
     assert true
-    assert false
+    assert true
   end
 
   maybe "asserts equality" do
-    assert_equal 1, 2
+    assert_equal 1, 1
   end
 
+  teardown do
+
+  end
 end

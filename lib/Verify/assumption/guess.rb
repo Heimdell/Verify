@@ -1,7 +1,7 @@
 class Verify::Assumption::Guess
+  attr_reader :results
 
-  class WrongAssumptions < StandardError
-  end
+  class WrongAssumptions < StandardError; end
 
   class WrongAssumptionsAbout < StandardError
     attr_accessor :message
@@ -15,21 +15,17 @@ class Verify::Assumption::Guess
     @results = ""
   end
 
-  def assert result
-    unless result
-      raise WrongAssumptions
-    end
+  def assert proposition
+    raise WrongAssumptions unless proposition
+    proposition
   end
 
   def assert_equal state, expectation
-    result = state == expectation
-
-    assert result
+    proposition = state === expectation
+    assert proposition
 
   rescue WrongAssumptions => e
     raise WrongAssumptionsAbout.new "Expected #{expectation.inspect}, but was #{state.inspect}"
+
   end
-
-  attr_reader :results
-
 end

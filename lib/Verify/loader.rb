@@ -28,13 +28,7 @@ class Loader
   end
 
   def parse path
-    path_list = []
-
-    Dir.glob(path) do |file|
-      path_list << file
-    end
-
-    path_list
+    Dir.glob(path)
   end
 
 end

@@ -16,7 +16,10 @@ class ValidAssumption < Verify::Assumption
     assert_equal 1, 1
   end
 
-  teardown do
+  maybe "raise an error" do
+    raise "error"
+  end
 
+  teardown do
   end
 end
